@@ -1807,6 +1807,7 @@ class link:
         self.imdb_seasons = 'http://www.imdb.com/title/tt%s/episodes'
         self.imdb_episodes = 'http://www.imdb.com/title/tt%s/episodes?season=%s'
         self.imdb_genres = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&sort=boxoffice_gross_us&count=25&start=1&genres=%s'
+        self.imdb_genres_type = 'http://www.imdb.com/search/title?title_type=%s&sort=num_votes,desc'
         self.imdb_certificates = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&sort=boxoffice_gross_us&count=25&start=1&certificates=us:%s'
         self.imdb_languages = 'http://www.imdb.com/search/title?languages=%s|1&title_type=feature,tv_movie&sort=moviemeter,asc&count=25&start=1'
         self.imdb_years = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&sort=boxoffice_gross_us&count=25&start=1&year=%s,%s'
@@ -1979,8 +1980,10 @@ class genres:
 
                 url = common.parseDOM(genre, "a", ret="href")[0]
                 url = re.compile('/genre/(.+?)/').findall(url)[0]
-                if url == 'documentary': raise Exception()
-                url = link().imdb_genres % url
+                # if url == 'documentary': raise Exception()
+                # url = link().imdb_genres % url
+                if 'documentary' == url: url = link().imdb_genres_type % url
+                else: url = link().imdb_genres % url
                 url = common.replaceHTMLCodes(url)
                 url = url.encode('utf-8')
 
